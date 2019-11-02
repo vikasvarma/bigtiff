@@ -1,0 +1,3 @@
+﻿  test.cpp
+cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+C:\Projects\bigimage\bimtest\test.cpp(1,10): fatal error C1083: Cannot open include file: 'gtest/gtest.h': No such file or directory
