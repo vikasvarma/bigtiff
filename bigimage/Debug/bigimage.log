@@ -1,2 +1,6 @@
-﻿  tiffadapter.cpp
-  bigimage.vcxproj -> C:\Projects\bigimage\Debug\bigimage.dll
+﻿  0 File(s) copied
+  bigimage.cpp
+  tiffadapter.cpp
+  Generating Code...
+     Creating library E:\GitProjects\bigimage\Debug\bigimage.lib and object E:\GitProjects\bigimage\Debug\bigimage.exp
+  bigimage.vcxproj -> E:\GitProjects\bigimage\Debug\bigimage.dll

@@ -119,6 +119,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)packages\libtiff\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>tiffd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy /y /d "$(SolutionDir)packages\libtiff\bin\tiffd.dll" "$(OutDir)"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -161,6 +164,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)packages\libtiff\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>tiffd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy /y /d "$(SolutionDir)packages\libtiff\bin\tiffd.dll" "$(OutDir)"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bigimage.cpp" />
