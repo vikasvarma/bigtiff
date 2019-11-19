@@ -172,11 +172,13 @@
   <ItemGroup>
     <ClCompile Include="bigtiff.cpp" />
     <ClCompile Include="adapter.cpp" />
+    <ClCompile Include="spatialmap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bigtiff.hpp" />
     <ClInclude Include="bimtypes.hpp" />
     <ClInclude Include="adapter.hpp" />
+    <ClInclude Include="spatialmap.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

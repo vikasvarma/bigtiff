@@ -5,6 +5,7 @@
  * variable type definitions here.
 */
 #include <cstdint>
+#include <array>
 
 /*
 Define DLL export and import macros:
@@ -16,36 +17,16 @@ Define DLL export and import macros:
 #endif
 
 namespace bim {
-	/*
-	 * SIZE - A 1-by-2 array of integer vector depicting the size along each
-	 *        dimension of the entity it represents.
-	 */
-	using SIZE = uint64_t[2];
 
-	/*
-	 * SIZE - A 1-by-2 array of integer vector depicting the size along each
-	 *        dimension of the entity it represents.
-	 */
-	using LOCATION = uint64_t[2];
+	using SIZE     = std::array<uint64_t, 2>;
+	using INDEX    = std::array<int64_t, 2>;
+	using RANGE    = std::array<double, 2>;
+	using LOCATION = std::array<double, 2>;
+	using STRING   = const char*;
+	using DOUBLE   = double;
+	using UINT8	   = uint8_t;
+	using UINT16   = uint16_t;
+	using UINT32   = uint32_t;
+	using UINT64   = uint64_t;
 
-	/*
-	 * DOUBLE - 64-bit double precision floating point numerical.
-	 */
-	using DOUBLE = uint64_t;
-
-	/*
-	 * STRING - A character pointer alias to represent the fully qualified name
-	 *        of a file on disk.
-	 */
-	using STRING = const char*;
-
-	/*
-	 * UINT8 - Overload to unsigned 8-bit integer
-	 */
-	using UINT8 = uint8_t;
-
-	/*
-	 * UINT16 - Overload to unsigned 16-bit integer
-	 */
-	using UINT16 = uint16_t;
 }

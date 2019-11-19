@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="adapter_.cpp" />
+    <ClCompile Include="spatialmap_.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\bigtiff\bigtiff.vcxproj">

@@ -21,6 +21,9 @@
     <ClCompile Include="adapter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="spatialmap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bimtypes.hpp">
@@ -30,6 +33,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="adapter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="spatialmap.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
