@@ -16,7 +16,7 @@ Define DLL export and import macros:
 #    define BIGTIFF_DLL __declspec(dllimport)
 #endif
 
-namespace bim {
+namespace btiff {
 
 	using SIZE     = std::array<uint64_t, 2>;
 	using INDEX    = std::array<int64_t, 2>;

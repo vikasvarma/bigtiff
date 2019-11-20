@@ -54,32 +54,49 @@ bigtiff::bigtiff(STRING file)
 	createPatchMap();
 
 	// Default: Point the sequential reader to read from the first TIFF directory:
-	this->set_ReadDirectory(1);
+	this->set_ReadDirectory(0);
 }
 
 // ---------------------------------------------------------------------------------
-cv::Mat bigtiff::getPatch(UINT16 level, LOCATION spatialCoordinate)
+PATCH bigtiff::getPatch(UINT16 level, LOCATION spatialCoordinate)
 {
 	/*
-		
+		TODO
 	*/
 
 	// Convert spatial coordinate to image index:
 	INDEX pindex_ = SpatialMapping[level].spatialToImage(spatialCoordinate);
 
-	cv::Mat patch_ = Adapter.readPatch(level, pindex_, PatchSize[level]);
+	// Compute patch image extents based on specified spatial coordinate:
+	vector<INDEX> imageExtents = Adapter.extents(level, PatchSize[level], pindex_);
+
+	//Convert patch extents to spatial extents:
+	LOCATION spatialOrigin = SpatialMapping[level].imageToSpatial(imageExtents[0]);
+	LOCATION spatialEnd = SpatialMapping[level].imageToSpatial(imageExtents[1]);
+
+	// Read patch:
+	Mat data_ = Adapter.readPatch(level, pindex_, PatchSize[level]);
+
+	//Structurize the data:
+	PATCH patch_ = PATCH(data_,
+						 spatialOrigin,
+						 spatialEnd,
+						 imageExtents[0],
+						 imageExtents[1]);
 
 	return patch_;
 }
 
 // ---------------------------------------------------------------------------------
-cv::Mat bigtiff::getRegion(UINT16 level, LOCATION regStart, LOCATION regEnd)
+PATCH bigtiff::getRegion(UINT16 level, LOCATION regStart, LOCATION regEnd)
 {
-	return cv::Mat();
+
+	PATCH patch_ = PATCH(Mat(), { 0, 0 }, { 120, 120 }, { 0,0 }, { 120, 120 });
+	return patch_;
 }
 
 // ---------------------------------------------------------------------------------
-cv::Mat bigtiff::seqread()
+PATCH bigtiff::seqread()
 {
 	/*
 		Sequentially read patches from the images
@@ -89,7 +106,7 @@ cv::Mat bigtiff::seqread()
 	LOCATION patchOrigin_ = (*sequentialReader);
 
 	// Let adapter handle read:
-	cv::Mat patch_ = getPatch(ReadLevel, patchOrigin_);
+	PATCH patch_ = getPatch(ReadLevel, patchOrigin_);
 
 	return patch_;
 }

@@ -3,7 +3,7 @@
 #include "bimtypes.hpp"
 #include <array>
 
-using namespace bim;
+using namespace btiff;
 using namespace std;
 
 class BIGTIFF_DLL spatialmap {
