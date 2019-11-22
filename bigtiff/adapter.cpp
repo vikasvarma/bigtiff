@@ -45,7 +45,7 @@ adapter::adapter(STRING file, STRING mode) {
 	tif = TIFFOpen(TIFFSource, Mode);
 
 	// Find the number of directories in BigTIFF:
-	NumDirectories_ = TIFFNumberOfDirectories(tif);
+	NumDirectories = TIFFNumberOfDirectories(tif);
 
 	// Read meta data from each TIFF directory:
 	readMetadata();
@@ -64,7 +64,7 @@ adapter::~adapter() {
 }
 
 //----------------------------------------------------------------------------------
-UINT16 adapter::getNumDirectories() const { return NumDirectories_; }
+UINT16 adapter::getNumDirectories() const { return NumDirectories; }
 
 //----------------------------------------------------------------------------------
 bool adapter::istiled() const { return TIFFIsTiled(tif); }
@@ -80,6 +80,35 @@ cv::Mat adapter::readPatch(UINT16 level, INDEX pindex, SIZE patchSize)
 		at image coordinate ORIGIN and spanning a PATCHSIZE of pixels in each image
 		dimension. PATCH is a cv::Mat image matrix containing pixel intensity data.
 	*/
+
+	/*
+		INPUT VALIDATION:
+		
+		TODO
+	*/
+	stringstream err;
+
+	// Check level:
+	if (level < 0 || level >= NumDirectories)
+	{
+		throw "Invalid directory level.";
+	}
+
+	// Check to ensure that image coordinate supplied is within image extents:
+	if (pindex[0] < 0 || pindex[0] > MetaData[level].Width ||
+		pindex[1] < 0 || pindex[1] > MetaData[level].Height)
+	{
+		err << "Image Coordinate " << "[" << pindex[0] << ", " << pindex[1] << "]"
+			<< " is outside image extents " 
+			<< "[" << MetaData[level].Width << ", " << MetaData[level].Height << "].";
+		throw err;
+	}
+
+	// Check to ensure that patchSize is valid:
+	if (patchSize[0] < 0 || patchSize[1] < 0)
+	{
+		throw "Invalid PatchSize.";
+	}
 
 	// Initialize the output matrix:
 	Mat patch_ = Mat::zeros(Size(patchSize[0], patchSize[1]),
@@ -113,7 +142,7 @@ cv::Mat adapter::readPatch(UINT16 level, INDEX pindex, SIZE patchSize)
 			Mat rows_;
 			vector<Mat> tiles_;
 
-			for (int n_ = tltile_[1]; n_ <= brtile_[0]; n_++)
+			for (int n_ = tltile_[1]; n_ <= brtile_[1]; n_++)
 			{
 				tileOrigin_ = { static_cast<int64_t>(m_*MetaData[level].TileSize[0]),
 								static_cast<int64_t>(n_*MetaData[level].TileSize[1]) };
@@ -142,8 +171,8 @@ cv::Mat adapter::readPatch(UINT16 level, INDEX pindex, SIZE patchSize)
 		}
 
 		// Now, sub-index into the accumulated matrix:
-		INDEX origin_ = { pindex[0] - tltile_[0] * MetaData[level].TileSize[0],
-						  pindex[1] - tltile_[1] * MetaData[level].TileSize[1] };
+		INDEX origin_ = { patchCorners_[0][0] - (tltile_[0] * MetaData[level].TileSize[0]),
+						  patchCorners_[0][1] - (tltile_[1] * MetaData[level].TileSize[1]) };
 
 		Rect roi_ = Rect(origin_[0], origin_[1], patchSize[0], patchSize[1]);
 		Mat  cropped_ = tileset_(roi_);
@@ -214,7 +243,7 @@ void adapter::readMetadata()
 		METADATA(TIFF* tif) - Reads image metadata information from TIFF tags.
 	 */
 
-	MetaData = new METADATA[NumDirectories_];
+	MetaData = new METADATA[NumDirectories];
 
 	UINT16 dind_ = 0;
 	do {
@@ -299,7 +328,7 @@ cv::Mat adapter::readIOTile(UINT16 level, INDEX origin)
 			// Create cv::Mat and push to stack:
 			chtile_ = Mat((int)this->MetaData[level].TileSize[0],
 						  (int)this->MetaData[level].TileSize[1], 
-						  CV_8UC1, buffer_);
+						  CV_8UC1, buffer_); // TODO
 			Channels_.push_back(chtile_);
 		}
 

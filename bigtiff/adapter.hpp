@@ -37,12 +37,9 @@ class BIGTIFF_DLL adapter {
 	public:
 		STRING    TIFFSource;
 		STRING    Mode;
-		UINT8     NumDirectories;
+		UINT16    NumDirectories;
 		METADATA* MetaData;
 		STRING    CacheDir;
-
-	private:
-		UINT16 NumDirectories_;
 
 	/*
 		Adapter Methods ------------------------------------------------------------
