@@ -7,23 +7,24 @@
 #include "opencv2/core/mat.hpp"
 #include "opencv2/core/core.hpp"
 
-using namespace bim;
+using namespace cv;
+using namespace btiff;
 
 struct METADATA {
 	/*
-	 * METADATA - Structure that stores the metadata information of a TIFF
-	 *            bigimage. This metadata information is read from TIFF tags.
+		METADATA - Structure that stores the metadata information of a BigTIFF
+		           image. This metadata information is read from TIFF tags.
 	 */
 
 	const SIZE   TileSize = {0, 0};
 	const UINT64 RowsPerStrip = 0;
 	const UINT64 Height = 0;
 	const UINT64 Width = 0;
-	const UINT8  BitsPerSample = 0;
-	const UINT8  Channels = 0;
-	const UINT8  PlanarConfiguration = 0;
-	const UINT8  Photometric = 0;
-	const UINT8  SampleFormat = 0;
+	const UINT16 BitsPerSample = 0;
+	const UINT16 Channels = 0;
+	const UINT16 PlanarConfiguration = 0;
+	const UINT16 Photometric = 0;
+	const UINT16 SampleFormat = 0;
 	const DOUBLE Colormap = 0;
 
 };
@@ -36,12 +37,9 @@ class BIGTIFF_DLL adapter {
 	public:
 		STRING    TIFFSource;
 		STRING    Mode;
-		UINT8     NumDirectories;
+		UINT16    NumDirectories;
 		METADATA* MetaData;
 		STRING    CacheDir;
-
-	private:
-		UINT16 NumDirectories_;
 
 	/*
 		Adapter Methods ------------------------------------------------------------
@@ -54,12 +52,12 @@ class BIGTIFF_DLL adapter {
 		UINT16 getNumDirectories() const;
 		bool istiled() const;
 		bool isstriped() const;
-		cv::Mat readPatch(UINT16 level, INDEX pindex, SIZE patchSize);
-		cv::Mat readRegion(UINT16 level, LOCATION regStart, LOCATION regEnd);
+		Mat readPatch(UINT16 level, INDEX pindex, SIZE patchSize);
+		Mat readRegion(UINT16 level, LOCATION regStart, LOCATION regEnd);
+		vector<INDEX> extents(UINT16 level, SIZE unitsize, INDEX pindex);
 
 	private:
 		void readMetadata();
-		cv::Mat readIOTile(UINT16 level, INDEX origin);
-		vector<INDEX> extents(UINT16 level, SIZE unitsize, INDEX pindex);
+		Mat readIOTile(UINT16 level, INDEX origin);
 		UINT8 getDatatype(UINT16 level);
 };

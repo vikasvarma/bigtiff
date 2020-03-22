@@ -8,6 +8,33 @@
 
 using namespace std;
 
+struct PATCH {
+	/*
+		PATCH - Structure containing Patch information.
+	*/
+
+	Mat		 Data;
+	SIZE	 PatchSize;
+	LOCATION SpatialOrigin;
+	LOCATION SpatialEnd;
+	INDEX	 ImageOrigin;
+	INDEX	 ImageEnd;
+
+	PATCH(Mat data_,
+		  LOCATION spatialOrigin_,
+		  LOCATION spatialEnd_,
+		  INDEX imageOrigin_,
+		  INDEX imageEnd_)
+	{
+		Data          = data_;
+		SpatialOrigin = spatialOrigin_;
+		SpatialEnd    = spatialEnd_;
+		ImageOrigin   = imageEnd_;
+		PatchSize     = { static_cast<UINT64>(data_.cols),
+						  static_cast<UINT64>(data_.rows) };
+	}
+};
+
 class bigtiff {
 	/*
 		BIGTIFF - Class to read patches of data from a BigTIFF file.
@@ -32,9 +59,9 @@ class bigtiff {
 
 	public:
 		bigtiff(STRING file);
-		cv::Mat getPatch(UINT16 level, LOCATION spatialCoordinate);
-		cv::Mat getRegion(UINT16 level, LOCATION regStart, LOCATION regEnd);
-		cv::Mat seqread();
+		PATCH getPatch(UINT16 level, LOCATION spatialCoordinate);
+		PATCH getRegion(UINT16 level, LOCATION regStart, LOCATION regEnd);
+		PATCH seqread();
 
 		// Property setters:
 		void set_PatchSize(SIZE patchSize);

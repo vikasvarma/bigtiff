@@ -90,8 +90,8 @@ INDEX spatialmap::spatialToImage(LOCATION coordinate)
 	coordinate[1] = coordinate[1] - YLimits[0];
 
 	// Convert spatial coordinate to pixel index:
-	pindex[0] = (UINT64) std::ceil( coordinate[0] / XSpacing ) - 1;
-	pindex[1] = (UINT64) std::ceil( coordinate[1] / YSpacing ) - 1;
+	pindex[0] = (UINT64) std::floor( coordinate[0] / XSpacing );
+	pindex[1] = (UINT64) std::floor( coordinate[1] / YSpacing );
 
 	// Handle out of bounds:
 	if (pindex[0] > ImageSize[0]) pindex[0] = -1;
